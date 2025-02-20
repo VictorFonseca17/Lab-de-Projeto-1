@@ -6,21 +6,42 @@ public class Aluno {
     private int id;
     private String nome;
     private String senha;
-    private List<Disciplina> matriculas; // Lista de disciplinas em que o aluno está matriculado
+    private List<Disciplina> matriculas; 
 
-    public String getNome() {
-        return this.nome;
+    public Aluno(int id, String nome, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.senha = senha;
+        this.matriculas = new ArrayList<>(); 
     }
 
     public void matricular(Disciplina disciplina) {
-        // Matricula o aluno em uma disciplina
-        this.matriculas.add(disciplina);
-        disciplina.adicionarAluno(this); // Adiciona o aluno à lista de matriculados da disciplina
+        if (!matriculas.contains(disciplina)) {
+            this.matriculas.add(disciplina);
+            disciplina.adicionarAluno(this); 
+        }
     }
 
     public void cancelarMatricula(Disciplina disciplina) {
-        // Cancela a matrícula do aluno em uma disciplina
-        this.matriculas.remove(disciplina);
-        disciplina.removerAluno(this); // Remove o aluno da lista de matriculados da disciplina
+        if (matriculas.contains(disciplina)) {
+            this.matriculas.remove(disciplina);
+            disciplina.removerAluno(this); 
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public List<Disciplina> getMatriculas() {
+        return matriculas;
     }
 }
