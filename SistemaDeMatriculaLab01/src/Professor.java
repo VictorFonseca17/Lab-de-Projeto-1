@@ -1,12 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class Professor implements Serializable {
+public class Professor {
     private int id;
     private String nome;
     private String senha;
     private List<Integer> disciplinas; // IDs das disciplinas que o professor leciona
 
+    // Construtor
     public Professor(int id, String nome, String senha) {
         this.id = id;
         this.nome = nome;
@@ -14,6 +15,7 @@ public class Professor implements Serializable {
         this.disciplinas = new ArrayList<>();
     }
 
+    // Getters e setters
     public int getId() {
         return id;
     }
@@ -79,4 +81,50 @@ public class Professor implements Serializable {
         }
     }
 
+    // Salvar o objeto Professor em um arquivo .txt
+    public static void salvarProfessor(Professor professor) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("professor_" + professor.getId() + ".txt"))) {
+            writer.write("ID: " + professor.getId() + "\n");
+            writer.write("Nome: " + professor.getNome() + "\n");
+            writer.write("Senha: " + professor.getSenha() + "\n");
+            writer.write("Disciplinas: " + professor.getDisciplinas() + "\n");
+            System.out.println("Professor salvo com sucesso!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Carregar o objeto Professor a partir de um arquivo .txt
+    public static Professor carregarProfessor(int professorId) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("professor_" + professorId + ".txt"))) {
+            String linha;
+            String nome = "";
+            String senha = "";
+            List<Integer> disciplinas = new ArrayList<>();
+            int id = professorId;
+
+            while ((linha = reader.readLine()) != null) {
+                if (linha.startsWith("Nome:")) {
+                    nome = linha.substring(6).trim(); // Remove o prefixo "Nome: "
+                }
+                if (linha.startsWith("Senha:")) {
+                    senha = linha.substring(7).trim(); // Remove o prefixo "Senha: "
+                }
+                if (linha.startsWith("Disciplinas:")) {
+                    // Extrai os valores das disciplinas
+                    String disciplinasStr = linha.substring(12).trim(); // Remove o prefixo "Disciplinas: "
+                    if (!disciplinasStr.isEmpty()) {
+                        String[] disciplinasArray = disciplinasStr.replace("[", "").replace("]", "").split(",");
+                        for (String disciplina : disciplinasArray) {
+                            disciplinas.add(Integer.parseInt(disciplina.trim()));
+                        }
+                    }
+                }
+            }
+            return new Professor(id, nome, senha);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
