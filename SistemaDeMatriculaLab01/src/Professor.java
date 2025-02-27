@@ -32,6 +32,10 @@ public class Professor {
         return disciplinas;
     }
 
+    @Override
+    public String toString() {
+        return id + ";" + nome + ";" + disciplinas;
+    }
     // Consultar alunos matriculados em uma disciplina que o professor leciona
     public void consultarAlunos(List<Disciplina> todasDisciplinas) {
         if (disciplinas.isEmpty()) {

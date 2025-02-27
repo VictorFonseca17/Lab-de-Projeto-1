@@ -3,12 +3,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class App {
@@ -300,7 +298,7 @@ public class App {
     }
 
     public static List<Professor> carregarProfessores() {
-        List<Professor> professores = null;
+        List<Professor> professores = new ArrayList<>();
         File arquivo = new File("professores.txt");
     
         // Verifica se o arquivo existe
@@ -324,7 +322,7 @@ public class App {
         return professores;
     }
     public static List<Disciplina> carregarDisciplinas() {
-        List<Disciplina> disciplinas = null;
+        List<Disciplina> disciplinas  = new ArrayList<>();
         File arquivo = new File("disciplinas.txt");
     
         // Verifica se o arquivo existe
@@ -348,7 +346,7 @@ public class App {
         return disciplinas;
     }
     public static List<Curso> carregarCursos() {
-        List<Curso> cursos = null;
+        List<Curso> cursos = new ArrayList<>();
         File arquivo = new File("cursos.txt");
     
         // Verifica se o arquivo existe
@@ -397,7 +395,7 @@ public class App {
     public static void salvarAlunos(List<Aluno> alunos) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) {
             for (Aluno aluno : alunos) {
-                writer.write(aluno.getId() + ";" + aluno.getNome() + ";" + aluno.getSenha()); // Exemplo de formato
+                writer.write(aluno.getId() + ";" + aluno.getNome() + ";" + aluno.getSenha());
                 writer.newLine(); // Quebra de linha
             }
         } catch (IOException e) {
@@ -407,29 +405,34 @@ public class App {
     
 
     public static void salvarProfessores(List<Professor> professores) {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("professores.txt"))) {
-        oos.writeObject(professores);
-        System.out.println("Professores salvos com sucesso!");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("professores.txt"))) {
+        for (Professor professor : professores) {
+            writer.write(professor.getId() + ";" + professor.getNome() + ";" + professor.getSenha());
+            writer.newLine(); // Quebra de linha
+        }
     } catch (IOException e) {
-        System.out.println("Erro ao salvar professores: " + e.getMessage());
+        e.printStackTrace();
     }
 }
 
 public static void salvarDisciplinas(List<Disciplina> disciplinas) {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("disciplinas.txt"))) {
-        oos.writeObject(disciplinas);
-        System.out.println("Disciplinas salvas com sucesso!");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("disciplinas.txt"))) {
+        for (Disciplina disciplina : disciplinas) {
+            writer.write(disciplina.getId() + ";" + disciplina.getNome() + ";" + disciplina.getCreditos() + ";" + disciplina.getCursoId());
+            writer.newLine(); // Quebra de linha
+        }
     } catch (IOException e) {
-        System.out.println("Erro ao salvar disciplinas: " + e.getMessage());
+        e.printStackTrace();
     }
 }
 public static void salvarCursos(List<Curso> cursos) {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("cursos.txt"))) {
-        oos.writeObject(cursos);
-        System.out.println("Cursos salvos com sucesso!");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("cursos.txt"))) {
+        for (Curso curso : cursos) {
+            writer.write(curso.getId() + ";" + curso.getNome() + ";" + curso.getCreditosTotais() + ";" + curso.getDisciplinas());
+            writer.newLine(); // Quebra de linha
+        }
     } catch (IOException e) {
-        System.out.println("Erro ao salvar cursos: " + e.getMessage());
+        e.printStackTrace();
     }
 }
-
 }

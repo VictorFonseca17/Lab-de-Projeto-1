@@ -32,6 +32,11 @@ public class Aluno {
         return matriculas;
     }
 
+    public String toString() {
+        String matriculasInfo = (matriculas.isEmpty()) ? "Sem matrículas" : matriculas.toString();
+        return id + ";" + nome + ";" + matriculasInfo;
+    }
+
     // Métodos de matrícula
     public void matricular(int disciplinaId) {
         if (!matriculas.contains(disciplinaId)) {
