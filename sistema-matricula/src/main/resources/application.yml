@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/h2db
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true 
+  server:
+    error:
+      include-message: always
+      include-binding-errors: always
+      include-exception: true
+      include-stacktrace: always
